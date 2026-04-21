@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
+/* Light mode (default) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core surfaces */
+  --background: #fffcf6;
+  --foreground: #051f20; 
+  --nectarine: #f78758;     
+  --mint: #e0f1e5;   
+  --avocado: #285b28;    
+  --cream: #fff0cd;
+  --lime: #a0c05b;    
+
+  /* Greens (accent) */
+  --tumeric: #e3b523;      
+  --accent-soft: #8eb69b;  /* green-100 */
+  --accent-ink: #235537;   /* green-950 */
+
+  /* Focus ring */
+  --ring: rgba(22, 163, 74, 0.35);
+
+  /* Optional: radius */
+  --radius: 16px;
 }
 
+/* Tailwind theme bridge (keeps your existing pattern) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-nectarine: var(--nectarine);
+  --color-mint: var(--mint);
+
+  --color-avocado: var(--avocado);
+  --color-cream: var(--cream);
+  --color-lime: var(--lime);
+
+  --color-tumeric: var(--tumeric);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --font-sans: var(--font-open-sans);
+  --font-mono: var(--font-lora);
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base page */
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Nice defaults for links + selection */
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--tumeric);
+}
+
+/* Optional utility hooks you can use in className if you want */
+.avocado-default {
+  avocado-color: var(--avocado);
+}
+.text-nectarine {
+  color: var(--nectarine);
+}
+.bg-cream {
+  background: var(--cream);
+}
+
+/* Focus ring for inputs/buttons when you’re using plain elements */
+:where(button, input, select, textarea):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+  avocado-color: var(--avocado);
+}
+
+/* PRINT */
+@media print {
+  /* hide everything */
+  body * {
+    visibility: hidden;
+  }
+
+  /* show only the recipe print area */
+  #recipe-print,
+  #recipe-print * {
+    visibility: visible;
+  }
+
+  #recipe-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  html,
+  body {
+    background: white !important;
+  }
+
+  #recipe-print {
+    color: #000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
 }
